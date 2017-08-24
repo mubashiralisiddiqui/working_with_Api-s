@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
-import {Books,BookDescription} from '../../components'
+import {LeftDrawer,Header,Signup,Login,DashBoard} from '../../components'
 
 
 export default class App extends React.Component {
@@ -8,8 +8,14 @@ export default class App extends React.Component {
         return (
             <Router>
                 <div>
-                    <Route exact path="/" component={Books} />
-                    <Route path="/bookDiscription/:id" component={BookDescription}/>
+                    <Route  path="/" component={Header} />
+                    <Route exact path="/" component={Signup} />  
+                    <Route exact path="/" component={LeftDrawer} />          
+                    <Route exact path="/signup" component={Signup} />            
+                    <Route exact path="/login" component={Login} />            
+                               
+                    <Route exact path="/dashbord" component={DashBoard} />            
+                               
                    
                 </div>
             </Router>
