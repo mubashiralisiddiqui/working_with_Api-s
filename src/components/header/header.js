@@ -18,7 +18,6 @@ export default class Header extends React.Component {
     }
     componentWillMount() {
         const token = (localStorage.getItem('token'))
-        console.log("willmount", token)
         if (token) {
             this.setState({
                 login: true
@@ -31,7 +30,7 @@ export default class Header extends React.Component {
         })
     }
     Logout() {
-        const auth = (localStorage.setItem('auth', false))
+        localStorage.setItem('auth', false)
         this.props.history.push('/')
     }
     render() {
@@ -55,7 +54,6 @@ export default class Header extends React.Component {
                 <AppBar
                     style={{ ...style.appBar }}
                     title="social App"
-
                     iconElementLeft={
                         <IconButton style={style.menuButton} onClick={() => this.handleDrawerOpen()}   >
                             <Menu color={white} />

@@ -3,15 +3,31 @@ import Drawer from 'material-ui/Drawer';
 import { spacing, typography } from 'material-ui/styles';
 import { blue600 } from 'material-ui/styles/colors';
 import MenuItem from 'material-ui/MenuItem';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import Avatar from 'material-ui/Avatar';
+import axios from 'axios';
 
+import { USER_API } from '../../routes/routes'
 export default class LeftDrawer extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            open: false
+            open: false,
+            user: []
         }
+    }
+    componentWillMount() {
+        axios.get(USER_API)
+
+            .then((response) => {
+                if (response.status === 200) {
+                    const user = response.data.data
+                    this.setState({ user: user })
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+            })
     }
     render() {
         const styles = {
@@ -53,22 +69,34 @@ export default class LeftDrawer extends React.Component {
                 <Drawer
                     docked={false}
                     open={this.props.openDrawer}
-                    onRequestChange={()=>this.props.toggleDrawer()}>
+                    onRequestChange={() => this.props.toggleDrawer()}>
                     <div style={styles.logo}>
                     </div>
                     <div style={styles.avatar.div}>
                         <Avatar
                             size={50}
-                            style={styles.avatar.icon} />
+                            style={styles.avatar.icon}
+                            src={this.state.user.avatar}
+                             />
                         <br />
-                        <span style={styles.avatar.span}>user</span>
+                        <span style={styles.avatar.span}>{this.state.user.first_name}</span>
                     </div>
                     <div>
                         <MenuItem
                             style={styles.menuItem}
-                            primaryText="text"
-                            leftIcon=""
-                            onTouchTap=""
+                            primaryText={<Link to="/allUser">AllUser</Link>}
+                        />
+                        <MenuItem
+                            style={styles.menuItem}
+                            primaryText={<Link to="/createuser">CreateUser</Link>}
+                        />
+                        <MenuItem
+                            style={styles.menuItem}
+                            primaryText={<Link to="/updateeuser">UpdateUser</Link>}
+                        />
+                        <MenuItem
+                            style={styles.menuItem}
+                            primaryText={<Link to="/delete euser">DelteUser</Link>}
                         />
                     </div>
                 </Drawer>
