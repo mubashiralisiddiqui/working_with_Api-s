@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 import Avatar from 'material-ui/Avatar';
 import axios from 'axios';
 
-import { USER_API } from '../../routes/routes'
+import { RouteRoot } from '../../routes/routes'
 export default class LeftDrawer extends React.Component {
     constructor(props) {
         super(props);
@@ -17,8 +17,7 @@ export default class LeftDrawer extends React.Component {
         }
     }
     componentWillMount() {
-        axios.get(USER_API)
-
+        axios.get(RouteRoot + "/users/2")
             .then((response) => {
                 if (response.status === 200) {
                     const user = response.data.data
@@ -77,26 +76,22 @@ export default class LeftDrawer extends React.Component {
                             size={50}
                             style={styles.avatar.icon}
                             src={this.state.user.avatar}
-                             />
+                        />
                         <br />
                         <span style={styles.avatar.span}>{this.state.user.first_name}</span>
                     </div>
                     <div>
                         <MenuItem
                             style={styles.menuItem}
+                            primaryText={<Link to="/dashbord">Dashbord</Link>}
+                        />
+                        <MenuItem
+                            style={styles.menuItem}
                             primaryText={<Link to="/allUser">AllUser</Link>}
                         />
                         <MenuItem
                             style={styles.menuItem}
-                            primaryText={<Link to="/createuser">CreateUser</Link>}
-                        />
-                        <MenuItem
-                            style={styles.menuItem}
-                            primaryText={<Link to="/updateeuser">UpdateUser</Link>}
-                        />
-                        <MenuItem
-                            style={styles.menuItem}
-                            primaryText={<Link to="/delete euser">DelteUser</Link>}
+                            primaryText={<Link to="/posts">Posts</Link>}
                         />
                     </div>
                 </Drawer>

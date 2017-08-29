@@ -5,7 +5,6 @@ import { List, ListItem } from 'material-ui/List';
 import Subheader from 'material-ui/Subheader';
 import Divider from 'material-ui/Divider';
 import { Link } from 'react-router-dom';
-
 import axios from 'axios';
 
 import { ALLUSER_API } from '../../routes/routes'
@@ -18,7 +17,7 @@ export default class AllUser extends React.Component {
         }
     }
     componentWillMount() {
-        axios.get(ALLUSER_API)
+        axios.get(ALLUSER_API+'/users/page=2')
             .then((response) => {
                 const AllUserInfo = response.data.data
                 if (response.status === 200) {

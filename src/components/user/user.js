@@ -4,15 +4,12 @@ import Avatar from 'material-ui/Avatar';
 import { List, ListItem } from 'material-ui/List';
 import Subheader from 'material-ui/Subheader';
 import Divider from 'material-ui/Divider';
-
 import axios from 'axios';
 
 import { ALLUSER_API } from '../../routes/routes'
-
 export default class User extends React.Component {
     constructor(props) {
         super(props);
-        console.log("propsss", props.match.params.id)
         this.state = {
             Users: []
         }
@@ -20,11 +17,8 @@ export default class User extends React.Component {
     componentWillMount() {
         axios.get(ALLUSER_API)
             .then((response) => {
-                console.log(response.data.data)
                 const UserInfo = response.data.data[this.props.match.params.id]
-                console.log("userinfo===", UserInfo)
                 if (response.status === 200) {
-                    const UserInfo = response.data.data[this.props.match.params.id]
                     this.setState({ Users: UserInfo })
                 }
             })
@@ -45,8 +39,6 @@ export default class User extends React.Component {
                 textDecoration: "underline",
                 textTransform: 'uppercase',
                 fontFamily: "serif"
-
-
             }
         };
         return (

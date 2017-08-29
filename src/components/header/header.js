@@ -5,9 +5,9 @@ import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import Menu from 'material-ui/svg-icons/navigation/menu';
-import { white, blue600 } from 'material-ui/styles/colors';
-import LeftDrawer from '../drawer/drawer';
+import { white } from 'material-ui/styles/colors';
 
+import LeftDrawer from '../drawer/drawer';
 export default class Header extends React.Component {
     constructor(props) {
         super(props);
@@ -17,12 +17,10 @@ export default class Header extends React.Component {
         }
     }
     componentWillMount() {
-        const token = (localStorage.getItem('token'))
-        if (token) {
-            this.setState({
-                login: true
-            })
-        }
+        const auth = (localStorage.getItem('auth'))
+        this.setState({
+            login: auth
+        })
     }
     handleDrawerOpen() {
         this.setState({
@@ -31,6 +29,9 @@ export default class Header extends React.Component {
     }
     Logout() {
         localStorage.setItem('auth', false)
+        this.setState({
+            login: false
+        })
         this.props.history.push('/')
     }
     render() {
@@ -40,7 +41,6 @@ export default class Header extends React.Component {
                 top: 0,
                 overflow: 'hidden',
                 maxHeight: 57,
-                backgrounColor: blue600
             },
             menuButton: {
                 marginLeft: 10
@@ -55,13 +55,13 @@ export default class Header extends React.Component {
                     style={{ ...style.appBar }}
                     title="social App"
                     iconElementLeft={
-                        <IconButton style={style.menuButton} onClick={() => this.handleDrawerOpen()}   >
-                            <Menu color={white} />
-                        </IconButton>
+                        this.state.login ?
+                            <IconButton style={style.menuButton} onClick={() => this.handleDrawerOpen()}   >
+                                <Menu color={white} />
+                            </IconButton> : null
                     }
                     iconElementRight={
                         <div style={style.iconsRightContainer}>
-
                             <IconMenu
                                 iconButtonElement={
                                     <IconButton><MoreVertIcon /></IconButton>

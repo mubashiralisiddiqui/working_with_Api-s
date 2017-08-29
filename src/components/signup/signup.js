@@ -5,8 +5,8 @@ import Paper from 'material-ui/Paper';
 import { Link } from 'react-router-dom';
 import { withRouter } from 'react-router-dom';
 import axios from 'axios';
-import { signup } from '../../routes/routes'
 
+import { RouteRoot } from '../../routes/routes'
 class Signup extends React.Component {
     constructor(props) {
         super(props);
@@ -15,20 +15,19 @@ class Signup extends React.Component {
         }
     }
     signup(e) {
+        console.log(RouteRoot + '/register')
         e.preventDefault()
         let email = this.refs.name.getValue();
         let password = this.refs.Password.getValue();
-
-        axios.post(signup, { email, password })
+        axios.post(RouteRoot + '/register', { email, password })
             .then((response) => {
                 if (response.status === 201) {
-                console.log(response.data.token)
+                    console.log(response.data.token)
                     this.props.history.push('/login')
                 }
             })
             .catch((err) => {
                 console.log(err);
-
             })
     }
     render() {
@@ -46,7 +45,6 @@ class Signup extends React.Component {
             }
         };
         return (
-
             <div style={style.parentDiv}>
                 <div>
                     < h1 className="text-center">Signup</h1>
@@ -57,8 +55,15 @@ class Signup extends React.Component {
                                 <br />
                                 <TextField type="password" hintText="Password" ref="Password" /> <br />
                                 <br />
-                                <RaisedButton type="submit" label="Signup" primary={true} className="btncolor" />
-                                <Link to="/login"><p>Alreay dhave an account?</p></Link>
+                                <RaisedButton
+                                    type="submit"
+                                    label="Signup"
+                                    primary={true}
+                                    className="btncolor"
+                                />
+                                <Link to="/login">
+                                    <p>Alreay dhave an account?</p>
+                                </Link>
                             </form>
                         </div>
                     </Paper>

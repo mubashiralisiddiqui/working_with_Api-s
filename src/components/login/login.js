@@ -5,7 +5,8 @@ import Paper from 'material-ui/Paper';
 import { Link } from 'react-router-dom';
 import { withRouter } from 'react-router-dom';
 import axios from 'axios';
-import { login } from '../../routes/routes'
+
+import { RouteRoot } from '../../routes/routes'
 class Login extends React.Component {
     constructor(props) {
         super(props);
@@ -13,20 +14,27 @@ class Login extends React.Component {
             isLogin: false
         }
     }
+    componentWillMount() {
+        const auth = JSON.parse(localStorage.getItem('auth'));
+        auth ?
+            this.props.history.push('/dashbord') :
+            this.props.history.push('/')
+    }
     Login(e) {
         e.preventDefault()
         let email = this.refs.name.getValue();
         let password = this.refs.Password.getValue();
-        axios.post(login, { email, password })
+        axios.post(RouteRoot + '/login', { email, password })
             .then((Response) => {
                 if (Response.status === 200) {
+                    const auth = localStorage.setItem('auth', true)
                     localStorage.setItem('token', Response.data.token);
+                    this.setState({ isLogin: auth })
                     this.props.history.push('/dashbord')
                 }
             })
             .catch((err) => {
                 console.log(err);
-
             })
     }
     render() {
@@ -44,7 +52,6 @@ class Login extends React.Component {
             }
         };
         return (
-
             <div style={style.parentDiv}>
                 <div>
                     < h1 className="text-center">Login</h1>
@@ -56,12 +63,11 @@ class Login extends React.Component {
                                 <TextField type="password" hintText="Password" ref="Password" /> <br />
                                 <br />
                                 <RaisedButton type="submit" label="Login" primary={true} className="btncolor" />
-                                <Link to="/"><p>Dont have an account?</p></Link>
+                                <Link to="/signup"><p>Dont have an account?</p></Link>
                             </form>
                         </div>
                     </Paper>
                 </div>
-                {this.props.children}
             </div >
         )
     }
